@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://assets/sketches/pet.png" type="Texture" id=1]
 [ext_resource path="res://scenes/fruits/Fruit.tscn" type="PackedScene" id=2]
@@ -7,6 +7,7 @@
 [ext_resource path="res://assets/sfx/yummy.wav" type="AudioStream" id=5]
 [ext_resource path="res://scenes/pet/PetHPProgress.tscn" type="PackedScene" id=6]
 [ext_resource path="res://assets/sfx/pet_hurt.wav" type="AudioStream" id=7]
+[ext_resource path="res://assets/sfx/heal.wav" type="AudioStream" id=8]
 
 [sub_resource type="CircleShape2D" id=1]
 radius = 5.75253
@@ -71,7 +72,9 @@ tracks/1/keys = {
 "values": [ true ]
 }
 
-[node name="Pet" type="KinematicBody2D"]
+[node name="Pet" type="KinematicBody2D" groups=[
+"pet",
+]]
 collision_layer = 8
 collision_mask = 3
 script = ExtResource( 3 )
@@ -112,6 +115,7 @@ stream = ExtResource( 4 )
 stream = ExtResource( 5 )
 
 [node name="StarveTimer" type="Timer" parent="."]
+wait_time = 5.0
 autostart = true
 
 [node name="HPProgress" parent="." instance=ExtResource( 6 )]
@@ -125,6 +129,9 @@ anims/hurt = SubResource( 5 )
 
 [node name="HurtSound" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource( 7 )
+
+[node name="HealSFX" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 8 )
 [connection signal="area_entered" from="InteractiveArea2D" to="." method="_on_InteractiveArea2D_area_entered"]
 [connection signal="area_exited" from="InteractiveArea2D" to="." method="_on_InteractiveArea2D_area_exited"]
 [connection signal="timeout" from="StarveTimer" to="." method="_on_StarveTimer_timeout"]

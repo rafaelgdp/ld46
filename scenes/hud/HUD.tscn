@@ -96,19 +96,29 @@ __meta__ = {
 [node name="HelpDialog" type="AcceptDialog" parent="."]
 anchor_left = 0.5
 anchor_right = 0.5
-margin_left = -98.6574
-margin_top = 66.8086
-margin_right = 712.343
-margin_bottom = 286.809
+margin_left = -79.77
+margin_top = 18.552
+margin_right = 717.23
+margin_bottom = 688.552
 grow_horizontal = 2
 grow_vertical = 2
-rect_scale = Vector2( 0.25, 0.25 )
+rect_scale = Vector2( 0.2, 0.2 )
 size_flags_horizontal = 4
 size_flags_vertical = 4
 window_title = "How to Play"
-dialog_text = "- Press Z to collect/drop fruits.
+dialog_text = "Controls:
+- Z or X-Joypad to collect/drop fruits.
+- X or Square-Joypad to cast simple attack.
+- C or Circle-Joypad to cast a strong area attack.
+- V or Triangle-Joypad to cast your ultimate!
+- S or L1-Joypad to SpeedUp
+- Collect energy to kill the enemies. The ultimate also heals your pet.
 - Feed your pet with the fruit it desires, or it'll throw it away!
-- Keep it alive for as long as you can!"
+- Fruits given when pet is fully fed give a lot of points!
+- Keep it alive for as long as you can!
+
+Game made by Rafael G. de Pontes. :)
+Powered by the Godot Game Engine!"
 dialog_autowrap = true
 script = ExtResource( 3 )
 __meta__ = {
@@ -164,6 +174,8 @@ position = Vector2( 132.998, 17.6211 )
 script = ExtResource( 8 )
 [connection signal="restart_game" from="." to="Fruit" method="_on_HUD_restart_game"]
 [connection signal="pressed" from="StatusPanel/Button" to="HelpDialog" method="_on_Button_pressed"]
+[connection signal="about_to_show" from="HelpDialog" to="." method="_on_HelpDialog_about_to_show"]
+[connection signal="popup_hide" from="HelpDialog" to="." method="_on_HelpDialog_popup_hide"]
 [connection signal="about_to_show" from="GameOverDialog" to="GameOverDialog" method="_on_GameOverDialog_about_to_show"]
 [connection signal="pressed" from="GameOverDialog/RestartButton" to="." method="_on_RestartButton_pressed"]
 [connection signal="pressed" from="RestartButton" to="." method="_on_RestartButton_pressed"]

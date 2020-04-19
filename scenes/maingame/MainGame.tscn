@@ -37,7 +37,7 @@ environment = SubResource( 1 )
 position = Vector2( 47.2325, 117.987 )
 
 [node name="FruitSpawner" parent="." instance=ExtResource( 3 )]
-spawn_cooldown = 1.0
+spawn_cooldown = 2.0
 
 [node name="Position2D" type="Position2D" parent="FruitSpawner/SpawnCenters" index="0"]
 position = Vector2( -71.0468, 6.38673 )
@@ -65,40 +65,42 @@ position = Vector2( 104.376, -17.4571 )
 
 [node name="EnemySpawner" parent="." instance=ExtResource( 3 )]
 spawn_scene = ExtResource( 7 )
-spawn_cooldown = 60.0
+spawn_cooldown = 20.0
 
 [node name="Position2D" type="Position2D" parent="EnemySpawner/SpawnCenters" index="0"]
-position = Vector2( -117.144, -128.4 )
+position = Vector2( -230.828, -152.67 )
 
 [node name="Position2D3" type="Position2D" parent="EnemySpawner/SpawnCenters" index="1"]
-position = Vector2( -130.641, 233.454 )
+position = Vector2( -253.692, 309.669 )
 
 [node name="Position2D4" type="Position2D" parent="EnemySpawner/SpawnCenters" index="2"]
-position = Vector2( 303.438, 234.329 )
+position = Vector2( 393.704, 315.228 )
 
 [node name="Position2D2" type="Position2D" parent="EnemySpawner/SpawnCenters" index="3"]
-position = Vector2( 203.855, -126.576 )
+position = Vector2( 296.25, -157.232 )
 
 [node name="EnergySpawner" parent="." instance=ExtResource( 3 )]
+spawn_number = 3
 spawn_scene = ExtResource( 8 )
+spawn_cooldown = 1.0
 
 [node name="Position2D" type="Position2D" parent="EnergySpawner/SpawnCenters" index="0"]
-position = Vector2( -85.7739, -33.9238 )
+position = Vector2( -98.5474, -40.7363 )
 
 [node name="Position2D2" type="Position2D" parent="EnergySpawner/SpawnCenters" index="1"]
-position = Vector2( 264.407, -45.9612 )
+position = Vector2( 189.895, -57.4573 )
 
 [node name="Position2D3" type="Position2D" parent="EnergySpawner/SpawnCenters" index="2"]
-position = Vector2( 88.587, -47.4203 )
+position = Vector2( 57.9307, -91.2758 )
 
 [node name="Position2D4" type="Position2D" parent="EnergySpawner/SpawnCenters" index="3"]
-position = Vector2( 284.469, 211.203 )
+position = Vector2( 199.738, 218.867 )
 
 [node name="Position2D5" type="Position2D" parent="EnergySpawner/SpawnCenters" index="4"]
-position = Vector2( 109.379, 212.297 )
+position = Vector2( 30.1836, 256.578 )
 
 [node name="Position2D6" type="Position2D" parent="EnergySpawner/SpawnCenters" index="5"]
-position = Vector2( -65.3467, 205.367 )
+position = Vector2( -145.394, 164.918 )
 
 [node name="PlayerRobot" parent="." instance=ExtResource( 1 )]
 position = Vector2( 104.228, 73.7896 )
@@ -106,8 +108,9 @@ position = Vector2( 104.228, 73.7896 )
 [node name="Camera2D" type="Camera2D" parent="PlayerRobot"]
 current = true
 [connection signal="restart_game" from="HUD/HUD" to="." method="_on_HUD_restart_game"]
-[connection signal="pet_died" from="Pet" to="." method="_on_Pet_pet_died"]
 [connection signal="pet_died" from="Pet" to="HUD/HUD" method="_on_Pet_pet_died"]
+[connection signal="pet_died" from="Pet" to="." method="_on_Pet_pet_died"]
+[connection signal="spawned" from="EnemySpawner" to="." method="_on_EnemySpawner_spawned"]
 [connection signal="update_energy" from="PlayerRobot" to="HUD/HUD" method="_on_PlayerRobot_update_energy"]
 
 [editable path="FruitSpawner"]

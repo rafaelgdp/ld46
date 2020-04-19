@@ -13,13 +13,23 @@ onready var drop_pos := $Body/Hands/DropPos
 onready var anim := $AnimationPlayer
 
 var hand_empty := true
-var energy := 0 setget set_energy
+var energy := 100 setget set_energy
+var max_energy := 999
+var can_shoot := true
 
 var blast_scene := preload("res://scenes/powerups/EnergyBlast.tscn")
+var special_scene := preload("res://scenes/powerups/SpecialDamage.tscn")
+var ultimate_scene := preload("res://scenes/powerups/Ultimate.tscn")
+
+func _ready() -> void:
+	emit_signal("update_energy", energy)
 
 func _physics_process(delta: float) -> void:
 	handle_motion()
 	flip()
+	if (Input.is_action_pressed("shoot") and can_shoot):
+		if (energy > 0):
+			shoot()
 	if motion.length() < 0.1:
 		anim.play("still")
 	elif not anim.is_playing() or not anim.current_animation == "walking":
@@ -48,9 +58,24 @@ func _input(event: InputEvent) -> void:
 		else:
 			release()
 	
-	if (event.is_action_pressed("shoot")):
-		if (energy > 0):
-			shoot()
+	if (event.is_action_pressed("special") and can_shoot):
+		if (energy >= 10):
+			special()
+
+	if (event.is_action_pressed("ultimate") and can_shoot):
+		if (energy >= 100):
+			ultimate()
+	
+	if (event.is_action_pressed("speed_up") and can_shoot):
+		if (energy >= 30):
+			speed_up()
+
+func speed_up():
+	speed = 150
+	self.energy -= 50
+	$SpeedUpTimer.start()
+	$SpeedUpParticles.emitting = true
+	$SpeedUpSFX.play()
 
 func pick(fruit):
 	if fruit.is_in_group("pickable_fruit"):
@@ -65,33 +90,39 @@ func release():
 	fruit.dropped_at(drop_pos.global_position)
 
 func set_energy(e):
-	energy = max(min(e, 100), 0)
+	energy = max(min(e, max_energy), 0)
 	emit_signal("update_energy", energy)
 
 func shoot():
+	can_shoot = false
+	$BlastCooldownTimer.start()
 	self.energy -= 1
+	$BlastSFX.play()
 	var dir = sign(sprite.scale.x)
 	var blast = blast_scene.instance()
 	blast.global_position = hands.global_position
 	blast.direction = dir
 	get_parent().add_child(blast)
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+func special():
+	can_shoot = false
+	self.energy -= 10
+	$SpecialSFX.play()
+	var blast = special_scene.instance()
+	blast.global_position = hands.global_position
+	get_parent().add_child(blast)
+
+func ultimate():
+	can_shoot = false
+	self.energy -= 100
+	$SpecialSFX.play()
+	var blast = ultimate_scene.instance()
+	blast.global_position = hands.global_position
+	get_parent().add_child(blast)
+
+func _on_BlastCooldownTimer_timeout() -> void:
+	can_shoot = true
+
+func _on_SpeedUpTimer_timeout() -> void:
+	speed = 100
+	$SpeedUpParticles.emitting = false

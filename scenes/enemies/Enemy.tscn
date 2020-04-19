@@ -1,9 +1,11 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://assets/sketches/enemy.png" type="Texture" id=1]
 [ext_resource path="res://scenes/enemies/Enemy.gd" type="Script" id=2]
 [ext_resource path="res://assets/sfx/enemy_attack.wav" type="AudioStream" id=3]
 [ext_resource path="res://scenes/hud/HUDTheme.tres" type="Theme" id=4]
+[ext_resource path="res://assets/sfx/enemy_hurt.wav" type="AudioStream" id=5]
+[ext_resource path="res://assets/sfx/enemy_dying.wav" type="AudioStream" id=6]
 
 [sub_resource type="CircleShape2D" id=1]
 radius = 8.67606
@@ -83,8 +85,62 @@ tracks/5/keys = {
 "update": 1,
 "values": [ true, false ]
 }
+tracks/6/type = "value"
+tracks/6/path = NodePath("FlipNodes:modulate")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ) ]
+}
 
-[sub_resource type="Animation" id=5]
+[sub_resource type="Animation" id=8]
+resource_name = "die"
+length = 2.3
+tracks/0/type = "value"
+tracks/0/path = NodePath("FlipNodes:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.9 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 0.988235, 0.94902, 0, 0 ) ]
+}
+tracks/1/type = "method"
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 1.8 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "queue_free"
+} ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("DyingSFX:playing")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, false ]
+}
+
+[sub_resource type="Animation" id=3]
 resource_name = "walk"
 length = 0.6
 loop = true
@@ -124,11 +180,23 @@ tracks/2/keys = {
 "update": 0,
 "values": [ 0.0 ]
 }
-
-[sub_resource type="CircleShape2D" id=3]
-radius = 25.8776
+tracks/3/type = "value"
+tracks/3/path = NodePath("FlipNodes:modulate")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ) ]
+}
 
 [sub_resource type="CircleShape2D" id=4]
+radius = 25.8776
+
+[sub_resource type="CircleShape2D" id=5]
 radius = 11.9868
 
 [sub_resource type="StyleBoxFlat" id=6]
@@ -159,7 +227,7 @@ hframes = 6
 frame = 1
 
 [node name="Attack" type="Sprite" parent="FlipNodes/Body/Arm"]
-modulate = Color( 1, 1, 1, 0 )
+modulate = Color( 1, 1, 1, 0.705882 )
 position = Vector2( 3, 3 )
 rotation = 0.509636
 texture = ExtResource( 1 )
@@ -168,10 +236,8 @@ frame = 2
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/attack = SubResource( 2 )
-anims/walk = SubResource( 5 )
-
-[node name="AttackSFX" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource( 3 )
+anims/die = SubResource( 8 )
+anims/walk = SubResource( 3 )
 
 [node name="AttackArea" type="Area2D" parent="."]
 collision_layer = 64
@@ -179,7 +245,7 @@ collision_mask = 24
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AttackArea"]
 position = Vector2( 7.48549, -0.534676 )
-shape = SubResource( 3 )
+shape = SubResource( 4 )
 
 [node name="Hurtbox" type="Area2D" parent="." groups=[
 "enemy",
@@ -189,7 +255,7 @@ collision_mask = 3
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]
 position = Vector2( 0.0668335, 0.802017 )
-shape = SubResource( 4 )
+shape = SubResource( 5 )
 
 [node name="AttackCooldownTimer" type="Timer" parent="."]
 wait_time = 5.0
@@ -206,7 +272,25 @@ custom_styles/bg = SubResource( 7 )
 max_value = 5.0
 step = 1.0
 value = 5.0
+percent_visible = false
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="Label" type="Label" parent="HPProgress"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme = ExtResource( 4 )
+text = "5/5"
+align = 1
+valign = 1
+
+[node name="HurtSFX" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 5 )
+
+[node name="AttackSFX" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 3 )
+
+[node name="DyingSFX" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 6 )
 [connection signal="timeout" from="AttackCooldownTimer" to="." method="_on_AttackCooldownTimer_timeout"]

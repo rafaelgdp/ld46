@@ -35,7 +35,7 @@ func _process(delta: float) -> void:
 				if fruit.fruit == my_fruit.fruit:
 					fruit.eat()
 					Game.points += point_increment
-					self.hp += 5
+					self.hp += 35
 					my_fruit.choose_new()
 					Game.fruit = my_fruit.fruit
 					$YummySound.play()
@@ -49,9 +49,17 @@ func hurt(dmg):
 	self.hp -= dmg
 	hurt_anim.play("hurt")
 
+func heal(h):
+	self.hp += h
+	$HealSFX.play()
+	
+
 func set_hp(v):
 	if (v <= 0):
 		emit_signal("pet_died")
+	elif v > 100:
+		Game.points += 50 * (v - 100)
+		
 	hp = min(max(0, v), 100)
 	emit_signal("pet_hp_updated", v)
 

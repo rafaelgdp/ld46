@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/energy_hit_target.wav-b3295c9c5c1f339fad17fcbb35c3b59a.sample"
+
+[deps]
+
+source_file="res://assets/sfx/energy_hit_target.wav"
+dest_files=[ "res://.import/energy_hit_target.wav-b3295c9c5c1f339fad17fcbb35c3b59a.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

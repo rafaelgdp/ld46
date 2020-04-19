@@ -12,5 +12,6 @@ func _on_DecayTimer_timeout() -> void:
 func _on_EnergyBlast_area_entered(area: Area2D) -> void:
 	var enemy = area.get_parent()
 	if (enemy.is_in_group("enemy")):
-		enemy.hurt(1)
-		queue_free() # TODO: destroy animation
+		base_speed = 0
+		enemy.hurt((randi() % 2) + 1)
+		$AnimationPlayer.play("explode")
