@@ -1,7 +1,7 @@
 extends Area2D
 
 var direction := 1 # X direction
-export var base_speed = 100
+export var base_speed = 125
 
 func _physics_process(delta: float) -> void:
 	global_position += Vector2(direction, 0) * base_speed * delta

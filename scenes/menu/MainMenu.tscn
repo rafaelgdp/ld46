@@ -1,0 +1,236 @@
+[gd_scene load_steps=8 format=2]
+
+[ext_resource path="res://scenes/hud/HUDTheme.tres" type="Theme" id=1]
+[ext_resource path="res://assets/sketches/menu-bg.png" type="Texture" id=2]
+[ext_resource path="res://assets/sketches/initial-concept.png" type="Texture" id=3]
+[ext_resource path="res://assets/sfx/menu/button.wav" type="AudioStream" id=4]
+[ext_resource path="res://scenes/menu/MainMenu.gd" type="Script" id=5]
+[ext_resource path="res://assets/sfx/menu/menu_bg.ogg" type="AudioStream" id=6]
+
+[sub_resource type="Animation" id=1]
+resource_name = "default"
+length = 5.0
+loop = true
+step = 0.3
+tracks/0/type = "value"
+tracks/0/path = NodePath("Front:rect_rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 2.4, 2.7, 3, 3.3, 3.6 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ 0.0, 8.0, 0.0, -8.0, 0.0 ]
+}
+
+[node name="MainMenu" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 5 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Back" type="TextureRect" parent="."]
+margin_right = 240.0
+margin_bottom = 160.0
+texture = ExtResource( 2 )
+
+[node name="Front" type="TextureRect" parent="."]
+margin_left = -39.1325
+margin_top = 16.5715
+margin_right = 200.868
+margin_bottom = 176.572
+rect_pivot_offset = Vector2( 120, 80 )
+texture = ExtResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TitleRTL" type="RichTextLabel" parent="."]
+margin_left = 11.0052
+margin_top = 13.9914
+margin_right = 244.005
+margin_bottom = 52.9914
+rect_clip_content = false
+theme = ExtResource( 1 )
+bbcode_enabled = true
+bbcode_text = "[center][tornado]Pet Keeper[/tornado][/center]"
+text = "Pet Keeper"
+
+[node name="ButtonsVBoxContainer" type="VBoxContainer" parent="."]
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -71.1463
+margin_top = -64.5576
+margin_right = 153.854
+margin_bottom = 129.442
+rect_scale = Vector2( 0.3, 0.3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PlayButton" type="Button" parent="ButtonsVBoxContainer"]
+margin_right = 225.0
+margin_bottom = 41.0
+theme = ExtResource( 1 )
+text = "Play"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HowButton" type="Button" parent="ButtonsVBoxContainer"]
+margin_top = 45.0
+margin_right = 225.0
+margin_bottom = 86.0
+theme = ExtResource( 1 )
+text = "How to Play"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="AboutButton" type="Button" parent="ButtonsVBoxContainer"]
+margin_top = 90.0
+margin_right = 225.0
+margin_bottom = 131.0
+theme = ExtResource( 1 )
+text = "About"
+
+[node name="xDButton" type="Button" parent="ButtonsVBoxContainer"]
+margin_top = 135.0
+margin_right = 225.0
+margin_bottom = 176.0
+theme = ExtResource( 1 )
+text = ":P"
+
+[node name="Label" type="Label" parent="ButtonsVBoxContainer"]
+margin_top = 180.0
+margin_right = 225.0
+margin_bottom = 194.0
+text = "Game made by Rafael G. de Pontes"
+
+[node name="BG" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 6 )
+
+[node name="ButtonSFX" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 4 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/default = SubResource( 1 )
+
+[node name="HelpPopupDialog" type="PopupPanel" parent="."]
+visible = true
+margin_left = 2.56082
+margin_top = 7.68245
+margin_right = 872.561
+margin_bottom = 416.682
+rect_scale = Vector2( 0.255861, 0.348867 )
+size_flags_horizontal = 4
+size_flags_vertical = 4
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HelpPopupDialog"]
+margin_left = 4.0
+margin_top = 4.0
+margin_right = 866.0
+margin_bottom = 405.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Help" type="Label" parent="HelpPopupDialog/VBoxContainer"]
+margin_right = 862.0
+margin_bottom = 377.0
+size_flags_horizontal = 2
+size_flags_vertical = 2
+theme = ExtResource( 1 )
+text = "Controls:
+- Z or X-Joypad to collect/drop fruits.
+- X or Square-Joypad to cast simple attack.
+- C or Circle-Joypad to cast a strong area attack.
+- V or Triangle-Joypad to cast your ultimate!
+- S or L1-Joypad to speed up
+- Collect energy to kill the enemies. The ultimate also heals your pet.
+- Feed your pet with the fruit it desires, or it'll throw it away!
+- Fruits given when pet is fully fed give a lot of points!
+- Keep it alive for as long as you can!"
+
+[node name="HelpOKButton" type="Button" parent="HelpPopupDialog/VBoxContainer"]
+margin_top = 381.0
+margin_right = 862.0
+margin_bottom = 401.0
+text = "Okay"
+
+[node name="AboutPopupDialog" type="PopupPanel" parent="."]
+margin_left = 9.66369
+margin_top = 7.48515
+margin_right = 879.664
+margin_bottom = 416.485
+rect_scale = Vector2( 0.255861, 0.348867 )
+size_flags_horizontal = 2
+size_flags_vertical = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="AboutPopupDialog"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+size_flags_horizontal = 2
+size_flags_vertical = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="About" type="RichTextLabel" parent="AboutPopupDialog/VBoxContainer"]
+margin_left = 25.0
+margin_top = 15.0
+margin_right = 865.0
+margin_bottom = 380.0
+rect_min_size = Vector2( 800, 350 )
+size_flags_horizontal = 2
+size_flags_vertical = 2
+theme = ExtResource( 1 )
+bbcode_enabled = true
+bbcode_text = "This [url=https://ldjam.com/events/ludum-dare/46/pet-keeper]game[/url]  was entirely made by Rafael G. de Pontes for the Ludum Dare 46 Game Jam (Compo)!
+Therefore, all the assets in the game were made by me. That includes the art, SFX, programming, game design etc.
+
+Tools used:
+
+- Godot Game Engine ([url=https://godotengine.org/license]MIT License Link[/url])
+- Aseprite
+- Audacity
+
+Font used:
+
+Dotty by Kevin Richey, freely available at [url=https://www.1001fonts.com/dotty-font.html#more]this link[/url]. "
+text = "This game  was entirely made by Rafael G. de Pontes for the Ludum Dare 46 Game Jam (Compo)!
+Therefore, all the assets in the game were made by me. That includes the art, SFX, programming, game design etc.
+
+Tools used:
+
+- Godot Game Engine (MIT License Link)
+- Aseprite
+- Audacity
+
+Font used:
+
+Dotty by Kevin Richey, freely available at this link. "
+
+[node name="AboutOKButton" type="Button" parent="AboutPopupDialog/VBoxContainer"]
+margin_top = 389.0
+margin_right = 870.0
+margin_bottom = 409.0
+text = "Okay"
+[connection signal="pressed" from="ButtonsVBoxContainer/PlayButton" to="." method="_on_PlayButton_pressed"]
+[connection signal="pressed" from="ButtonsVBoxContainer/HowButton" to="." method="_on_HowButton_pressed"]
+[connection signal="pressed" from="ButtonsVBoxContainer/AboutButton" to="." method="_on_AboutButton_pressed"]
+[connection signal="pressed" from="ButtonsVBoxContainer/xDButton" to="." method="_on_xDButton_pressed"]
+[connection signal="pressed" from="HelpPopupDialog/VBoxContainer/HelpOKButton" to="." method="_on_HelpOKButton_pressed"]
+[connection signal="pressed" from="AboutPopupDialog/VBoxContainer/AboutOKButton" to="." method="_on_AboutOKButton_pressed"]

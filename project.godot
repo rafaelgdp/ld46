@@ -15,8 +15,8 @@ _global_script_class_icons={
 
 [application]
 
-config/name="LD46"
-run/main_scene="res://scenes/maingame/MainGame.tscn"
+config/name="Pet Keeper LD46"
+run/main_scene="res://scenes/menu/MainMenu.tscn"
 config/icon="res://assets/sketches/peticon.png"
 
 [autoload]
