@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/yuck.wav-d3242236ae69e6855a5e37db31713b63.sample"
+
+[deps]
+
+source_file="res://assets/sfx/yuck.wav"
+dest_files=[ "res://.import/yuck.wav-d3242236ae69e6855a5e37db31713b63.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

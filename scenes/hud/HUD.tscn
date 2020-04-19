@@ -1,0 +1,169 @@
+[gd_scene load_steps=11 format=2]
+
+[ext_resource path="res://scenes/hud/PointsRT.gd" type="Script" id=1]
+[ext_resource path="res://scenes/hud/HUDTheme.tres" type="Theme" id=2]
+[ext_resource path="res://scenes/hud/HelpDialog.gd" type="Script" id=3]
+[ext_resource path="res://scenes/pet/PetHPProgress.tscn" type="PackedScene" id=4]
+[ext_resource path="res://scenes/hud/HUD.gd" type="Script" id=5]
+[ext_resource path="res://scenes/hud/GameOverDialog.gd" type="Script" id=6]
+[ext_resource path="res://scenes/fruits/Fruit.tscn" type="PackedScene" id=7]
+[ext_resource path="res://scenes/fruits/HUDFruit.gd" type="Script" id=8]
+[ext_resource path="res://assets/sfx/voiceover/gameover.wav" type="AudioStream" id=9]
+[ext_resource path="res://assets/sketches/energy.png" type="Texture" id=10]
+
+[node name="HUD" type="Control"]
+pause_mode = 2
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme = ExtResource( 2 )
+script = ExtResource( 5 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="StatusPanel" type="Panel" parent="."]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -111.001
+margin_top = 5.23758
+margin_right = 111.999
+margin_bottom = 30.2376
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HPProgress" parent="StatusPanel" instance=ExtResource( 4 )]
+margin_left = 148.732
+margin_top = 1.49808
+margin_right = 329.732
+margin_bottom = 38.4981
+rect_scale = Vector2( 0.3, 0.3 )
+
+[node name="PointsRT" type="RichTextLabel" parent="StatusPanel"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 9.0
+margin_top = 4.0
+margin_right = 139.0
+margin_bottom = 15.0
+rect_scale = Vector2( 0.5, 0.5 )
+theme = ExtResource( 2 )
+bbcode_enabled = true
+bbcode_text = "Points: 0"
+text = "Points: 0"
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Button" type="Button" parent="StatusPanel"]
+anchor_left = 1.0
+anchor_right = 1.0
+margin_left = -17.0
+margin_top = 2.0
+margin_right = 33.0
+margin_bottom = 43.0
+rect_scale = Vector2( 0.3, 0.3 )
+text = "?"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="EnergyLabel" type="Label" parent="StatusPanel"]
+anchor_left = 1.0
+anchor_right = 1.0
+margin_left = -64.3678
+margin_top = 13.7075
+margin_right = 85.6322
+margin_bottom = 48.7075
+rect_scale = Vector2( 0.3, 0.3 )
+text = "Energy: 0"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TextureRect" type="TextureRect" parent="StatusPanel"]
+margin_left = 140.269
+margin_top = 9.66028
+margin_right = 156.269
+margin_bottom = 25.6603
+texture = ExtResource( 10 )
+stretch_mode = 5
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HelpDialog" type="AcceptDialog" parent="."]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -98.6574
+margin_top = 66.8086
+margin_right = 712.343
+margin_bottom = 286.809
+grow_horizontal = 2
+grow_vertical = 2
+rect_scale = Vector2( 0.25, 0.25 )
+size_flags_horizontal = 4
+size_flags_vertical = 4
+window_title = "How to Play"
+dialog_text = "- Press Z to collect/drop fruits.
+- Feed your pet with the fruit it desires, or it'll throw it away!
+- Keep it alive for as long as you can!"
+dialog_autowrap = true
+script = ExtResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="GameOverDialog" type="WindowDialog" parent="."]
+margin_left = 14.0
+margin_top = 49.0
+margin_right = 531.0
+margin_bottom = 277.0
+rect_scale = Vector2( 0.4, 0.4 )
+popup_exclusive = true
+window_title = "Game Over!"
+script = ExtResource( 6 )
+
+[node name="Label" type="Label" parent="GameOverDialog"]
+margin_left = 22.0
+margin_top = 14.0
+margin_right = 508.0
+margin_bottom = 139.0
+text = "Oh, boy! You let your pet die! Be more careful next time!
+Points achieved: 0"
+align = 1
+valign = 1
+autowrap = true
+
+[node name="RestartButton" type="Button" parent="GameOverDialog"]
+anchor_top = 1.0
+anchor_bottom = 1.0
+margin_left = 175.159
+margin_top = -74.5515
+margin_right = 358.159
+margin_bottom = -16.5515
+text = "Restart"
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="GameOverDialog"]
+stream = ExtResource( 9 )
+
+[node name="RestartButton" type="Button" parent="."]
+margin_left = 214.561
+margin_top = 20.7075
+margin_right = 368.561
+margin_bottom = 91.7075
+rect_scale = Vector2( 0.1, 0.1 )
+text = "Restart"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Fruit" parent="." instance=ExtResource( 7 )]
+position = Vector2( 132.998, 17.6211 )
+script = ExtResource( 8 )
+[connection signal="restart_game" from="." to="Fruit" method="_on_HUD_restart_game"]
+[connection signal="pressed" from="StatusPanel/Button" to="HelpDialog" method="_on_Button_pressed"]
+[connection signal="about_to_show" from="GameOverDialog" to="GameOverDialog" method="_on_GameOverDialog_about_to_show"]
+[connection signal="pressed" from="GameOverDialog/RestartButton" to="." method="_on_RestartButton_pressed"]
+[connection signal="pressed" from="RestartButton" to="." method="_on_RestartButton_pressed"]

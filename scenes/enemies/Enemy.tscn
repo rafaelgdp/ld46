@@ -1,0 +1,212 @@
+[gd_scene load_steps=12 format=2]
+
+[ext_resource path="res://assets/sketches/enemy.png" type="Texture" id=1]
+[ext_resource path="res://scenes/enemies/Enemy.gd" type="Script" id=2]
+[ext_resource path="res://assets/sfx/enemy_attack.wav" type="AudioStream" id=3]
+[ext_resource path="res://scenes/hud/HUDTheme.tres" type="Theme" id=4]
+
+[sub_resource type="CircleShape2D" id=1]
+radius = 8.67606
+
+[sub_resource type="Animation" id=2]
+resource_name = "attack"
+length = 0.8
+tracks/0/type = "value"
+tracks/0/path = NodePath("FlipNodes/Body/Arm:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 0, 0 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("FlipNodes/Body/Arm:rotation_degrees")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.2 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 0.0, -63.8 ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("FlipNodes/Body/Arm/Attack:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 3, 3 ), Vector2( 4, 6 ) ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("FlipNodes/Body/Arm/Attack:frame")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0, 0.1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ 2, 3 ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("FlipNodes/Body/Arm/Attack:modulate")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0, 0.2, 0.4 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0.705882 ), Color( 1, 1, 1, 0.121569 ), Color( 1, 1, 1, 0 ) ]
+}
+tracks/5/type = "value"
+tracks/5/path = NodePath("AttackSFX:playing")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0, 0.6 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, false ]
+}
+
+[sub_resource type="Animation" id=5]
+resource_name = "walk"
+length = 0.6
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("FlipNodes/Body/Arm:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.2, 0.4 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0, 0 ), Vector2( 0, -1 ), Vector2( 0, 0 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("FlipNodes/Body/Arm/Attack:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("FlipNodes/Body/Arm:rotation_degrees")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 0.0 ]
+}
+
+[sub_resource type="CircleShape2D" id=3]
+radius = 25.8776
+
+[sub_resource type="CircleShape2D" id=4]
+radius = 11.9868
+
+[sub_resource type="StyleBoxFlat" id=6]
+bg_color = Color( 0.439216, 0.709804, 0, 1 )
+
+[sub_resource type="StyleBoxFlat" id=7]
+bg_color = Color( 0.501961, 0, 0, 1 )
+
+[node name="Enemy" type="KinematicBody2D" groups=[
+"enemy",
+]]
+script = ExtResource( 2 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2( -1.06936, 1.33669 )
+shape = SubResource( 1 )
+
+[node name="FlipNodes" type="Node2D" parent="."]
+
+[node name="Body" type="Sprite" parent="FlipNodes"]
+texture = ExtResource( 1 )
+hframes = 6
+
+[node name="Arm" type="Sprite" parent="FlipNodes/Body"]
+texture = ExtResource( 1 )
+offset = Vector2( 2.5, -1.9 )
+hframes = 6
+frame = 1
+
+[node name="Attack" type="Sprite" parent="FlipNodes/Body/Arm"]
+modulate = Color( 1, 1, 1, 0 )
+position = Vector2( 3, 3 )
+rotation = 0.509636
+texture = ExtResource( 1 )
+hframes = 6
+frame = 2
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/attack = SubResource( 2 )
+anims/walk = SubResource( 5 )
+
+[node name="AttackSFX" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 3 )
+
+[node name="AttackArea" type="Area2D" parent="."]
+collision_layer = 64
+collision_mask = 24
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AttackArea"]
+position = Vector2( 7.48549, -0.534676 )
+shape = SubResource( 3 )
+
+[node name="Hurtbox" type="Area2D" parent="." groups=[
+"enemy",
+]]
+collision_layer = 128
+collision_mask = 3
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]
+position = Vector2( 0.0668335, 0.802017 )
+shape = SubResource( 4 )
+
+[node name="AttackCooldownTimer" type="Timer" parent="."]
+wait_time = 5.0
+
+[node name="HPProgress" type="ProgressBar" parent="."]
+margin_left = -11.9773
+margin_top = -17.6457
+margin_right = 157.023
+margin_bottom = 17.3543
+rect_scale = Vector2( 0.15, 0.15 )
+theme = ExtResource( 4 )
+custom_styles/fg = SubResource( 6 )
+custom_styles/bg = SubResource( 7 )
+max_value = 5.0
+step = 1.0
+value = 5.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+[connection signal="timeout" from="AttackCooldownTimer" to="." method="_on_AttackCooldownTimer_timeout"]

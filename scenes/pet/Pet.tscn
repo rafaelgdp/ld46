@@ -1,0 +1,130 @@
+[gd_scene load_steps=13 format=2]
+
+[ext_resource path="res://assets/sketches/pet.png" type="Texture" id=1]
+[ext_resource path="res://scenes/fruits/Fruit.tscn" type="PackedScene" id=2]
+[ext_resource path="res://scenes/pet/Pet.gd" type="Script" id=3]
+[ext_resource path="res://assets/sfx/yuck.wav" type="AudioStream" id=4]
+[ext_resource path="res://assets/sfx/yummy.wav" type="AudioStream" id=5]
+[ext_resource path="res://scenes/pet/PetHPProgress.tscn" type="PackedScene" id=6]
+[ext_resource path="res://assets/sfx/pet_hurt.wav" type="AudioStream" id=7]
+
+[sub_resource type="CircleShape2D" id=1]
+radius = 5.75253
+
+[sub_resource type="StyleBoxFlat" id=2]
+bg_color = Color( 1, 1, 1, 1 )
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color( 0, 0, 0, 1 )
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="Animation" id=3]
+resource_name = "show_food"
+length = 0.8
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("DialogPanel:rect_position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.4, 0.8 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( -18.0215, -38.3207 ), Vector2( -17.6363, -40.1505 ), Vector2( -18.0215, -38.3207 ) ]
+}
+
+[sub_resource type="CircleShape2D" id=4]
+radius = 17.9498
+
+[sub_resource type="Animation" id=5]
+resource_name = "hurt"
+length = 1.2
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.2, 0.4, 0.6, 0.8, 1, 1.2 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 0, 0, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 0, 0, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 0, 0, 1 ), Color( 1, 1, 1, 1 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("HurtSound:playing")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0.4 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+
+[node name="Pet" type="KinematicBody2D"]
+collision_layer = 8
+collision_mask = 3
+script = ExtResource( 3 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource( 1 )
+
+[node name="Sprite" type="Sprite" parent="."]
+texture = ExtResource( 1 )
+
+[node name="DialogPanel" type="Panel" parent="."]
+margin_left = -17.7411
+margin_top = -39.6524
+margin_right = 17.2589
+margin_bottom = -12.6524
+custom_styles/panel = SubResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Fruit" parent="DialogPanel" instance=ExtResource( 2 )]
+position = Vector2( 16.9499, 13.9644 )
+
+[node name="DialogAnimationPlayer" type="AnimationPlayer" parent="."]
+anims/show_food = SubResource( 3 )
+
+[node name="InteractiveArea2D" type="Area2D" parent="."]
+collision_layer = 16
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="InteractiveArea2D"]
+shape = SubResource( 4 )
+
+[node name="YuckSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 4 )
+
+[node name="YummySound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 5 )
+
+[node name="StarveTimer" type="Timer" parent="."]
+autostart = true
+
+[node name="HPProgress" parent="." instance=ExtResource( 6 )]
+margin_left = -15.3127
+margin_top = -12.5199
+margin_right = 188.687
+margin_bottom = 24.4801
+
+[node name="HurtAnim" type="AnimationPlayer" parent="."]
+anims/hurt = SubResource( 5 )
+
+[node name="HurtSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 7 )
+[connection signal="area_entered" from="InteractiveArea2D" to="." method="_on_InteractiveArea2D_area_entered"]
+[connection signal="area_exited" from="InteractiveArea2D" to="." method="_on_InteractiveArea2D_area_exited"]
+[connection signal="timeout" from="StarveTimer" to="." method="_on_StarveTimer_timeout"]
