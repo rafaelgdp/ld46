@@ -31,3 +31,7 @@ func _on_AboutOKButton_pressed() -> void:
 
 func _on_AboutButton_pressed() -> void:
 	$AboutPopupDialog.popup()
+
+
+func _on_About_meta_clicked(meta) -> void:
+	OS.shell_open(meta)

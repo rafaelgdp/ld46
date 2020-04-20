@@ -17,7 +17,7 @@ export (float) var spawn_cooldown = 10 setget set_sc
 func set_sn(v):
 	if (v % 10 == 0):
 		spawn_level += 3
-	spawn_number = min(25, v)
+	spawn_number = v
 
 func set_ns(v):
 	num_spawns = v

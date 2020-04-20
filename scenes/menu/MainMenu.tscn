@@ -123,7 +123,6 @@ stream = ExtResource( 4 )
 anims/default = SubResource( 1 )
 
 [node name="HelpPopupDialog" type="PopupPanel" parent="."]
-visible = true
 margin_left = 2.56082
 margin_top = 7.68245
 margin_right = 872.561
@@ -182,6 +181,10 @@ __meta__ = {
 [node name="VBoxContainer" type="VBoxContainer" parent="AboutPopupDialog"]
 anchor_right = 1.0
 anchor_bottom = 1.0
+margin_left = 4.0
+margin_top = 4.0
+margin_right = -4.0
+margin_bottom = -4.0
 size_flags_horizontal = 2
 size_flags_vertical = 2
 __meta__ = {
@@ -233,4 +236,5 @@ text = "Okay"
 [connection signal="pressed" from="ButtonsVBoxContainer/AboutButton" to="." method="_on_AboutButton_pressed"]
 [connection signal="pressed" from="ButtonsVBoxContainer/xDButton" to="." method="_on_xDButton_pressed"]
 [connection signal="pressed" from="HelpPopupDialog/VBoxContainer/HelpOKButton" to="." method="_on_HelpOKButton_pressed"]
+[connection signal="meta_clicked" from="AboutPopupDialog/VBoxContainer/About" to="." method="_on_About_meta_clicked"]
 [connection signal="pressed" from="AboutPopupDialog/VBoxContainer/AboutOKButton" to="." method="_on_AboutOKButton_pressed"]

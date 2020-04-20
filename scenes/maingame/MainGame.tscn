@@ -37,7 +37,9 @@ environment = SubResource( 1 )
 position = Vector2( 47.2325, 117.987 )
 
 [node name="FruitSpawner" parent="." instance=ExtResource( 3 )]
-spawn_cooldown = 2.0
+spawn_number = 2
+max_spawns = 150
+spawn_cooldown = 1.0
 
 [node name="Position2D" type="Position2D" parent="FruitSpawner/SpawnCenters" index="0"]
 position = Vector2( -71.0468, 6.38673 )
@@ -64,6 +66,7 @@ position = Vector2( 277.669, -10.6446 )
 position = Vector2( 104.376, -17.4571 )
 
 [node name="EnemySpawner" parent="." instance=ExtResource( 3 )]
+max_spawns = 30
 spawn_scene = ExtResource( 7 )
 spawn_cooldown = 20.0
 
